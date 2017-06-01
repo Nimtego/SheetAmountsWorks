@@ -1,6 +1,6 @@
 package model;
 
-import model.Constant.CableType;
+import model.constant.CableType;
 
 import java.util.List;
 

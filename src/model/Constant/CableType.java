@@ -1,4 +1,4 @@
-package model.Constant;
+package model.constant;
 
 /**
  * Created by myasnikov
