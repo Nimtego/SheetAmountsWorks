@@ -5,6 +5,8 @@ import model.user.User;
 import model.user.UserContainer;
 import view.StructWindow;
 import view.buttons.ButtonsListener;
+import view.buttons.sheet_amount.ButtonsListenerCalculateAll;
+import view.buttons.sheet_amount.ButtonsListenerCalculateThis;
 import view.buttons.sheet_amount.ButtonsListenerNewDistrict;
 import view.buttons.simple_error.ButtonsListenerOk;
 import view.buttons.user_reg.ButtonsListenerExit;
@@ -13,6 +15,7 @@ import view.buttons.user_reg.ButtonsListenerLogIn;
 import view.buttons.user_reg.ButtonsListenerSingIn;
 import view.windows.WindowView;
 import view.windows.WindowViewFabric;
+import view.windows.windows_colection.WindowCalculateData;
 import view.windows.windows_colection.WindowSheetAmount;
 import view.windows.windows_colection.WindowSimpleError;
 import view.windows.windows_colection.WindowViewUserReg;
@@ -45,8 +48,9 @@ public class WindowController {
             case SHEET_AMOUNT:
                 addWindow(windowViewMap.get(tegWin));
                 break;
-/*            case SIMPLE_ERROR: display(windowViewMap.get(tegWin));
-            break;*/
+            case CALCULATION_DATA:
+                addWindow(windowViewMap.get(tegWin));
+                break;
         }
     }
 
@@ -71,7 +75,8 @@ public class WindowController {
 
     public void buttonReport(ButtonsListener buttonsListener) {
         System.out.println("hhh");
-        if (structWindow.getActivity().getData() instanceof WindowViewUserReg) {
+        WindowView windowView = structWindow.getActivity().getData();
+        if (windowView instanceof WindowViewUserReg) {
             if (buttonsListener instanceof ButtonsListenerLogIn) {
                 WindowViewUserReg windowViewUserReg = (WindowViewUserReg) buttonsListener.getOwner();
                 String nameUser = windowViewUserReg.getLogIn();
@@ -90,7 +95,7 @@ public class WindowController {
                 owner.userLogIn(nameUser, password);
             }
         }
-        if (structWindow.getActivity().getData() instanceof WindowSheetAmount) {
+        if (windowView instanceof WindowSheetAmount) {
             if (buttonsListener instanceof ButtonsListenerNewDistrict) {
                 WindowSheetAmount windowSheetAmount = (WindowSheetAmount) buttonsListener.getOwner();
                 String nameDistrict = windowSheetAmount.getNameDistrict();
@@ -99,13 +104,21 @@ public class WindowController {
                 String typeTrench = windowSheetAmount.getTypeTrench();
                 owner.registrSheetAmount(nameDistrict, lineLong, numberOfCrossing, typeTrench);
             }
+            if (buttonsListener instanceof ButtonsListenerCalculateThis) {
+                WindowSheetAmount windowSheetAmount = (WindowSheetAmount) buttonsListener.getOwner();
+                owner.calculate(windowSheetAmount.getSelectedDistrict());
+            }
+            if (buttonsListener instanceof ButtonsListenerCalculateAll) {
+                WindowSheetAmount windowSheetAmount = (WindowSheetAmount) buttonsListener.getOwner();
+                owner.calculateAll();
+            }
         }
-        if (!(structWindow.getActivity().getData() instanceof WindowSimpleError)) {
+        if (!(windowView instanceof WindowSimpleError)) {
             if (buttonsListener instanceof ButtonsListenerExit) {
                 deleteWindow();
             }
         }
-        if (structWindow.getActivity().getData() instanceof WindowSimpleError) {
+        if (windowView instanceof WindowSimpleError) {
             System.out.println("ttttt");
             if (buttonsListener instanceof ButtonsListenerOk) {
                 deleteWindow();
@@ -124,8 +137,11 @@ public class WindowController {
     }
 
     public void simpleMessage(TegWin simpleError, String errorMessage) {
-        WindowSimpleError windowSimpleError = (WindowSimpleError) windowViewMap.get(simpleError);
-        windowSimpleError.setMessage(" " + errorMessage + " ");
+        WindowView windowSimpleError = windowViewMap.get(simpleError);
+        if (windowSimpleError instanceof WindowSimpleError)
+            ((WindowSimpleError)windowSimpleError).setMessage(" " + errorMessage + " ");
+        if (windowSimpleError instanceof WindowCalculateData)
+            ((WindowCalculateData)windowSimpleError).setTextAreaCalculateData(" " +errorMessage +" ");
         addWindow(windowSimpleError);
     }
 

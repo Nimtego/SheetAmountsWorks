@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Trench_type>
-    <T-1 type="T-1">
+    <T-1>
         <Basis_width>200</Basis_width>
         <Depth>900</Depth>
         <Digging_trench>18.0</Digging_trench>

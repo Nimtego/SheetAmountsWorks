@@ -74,4 +74,14 @@ public class UserContainer {
         }
         return null;
     }
+    public District getDistrictByName(final String nameDistrict) {
+        for (User user : userListMap.keySet()) {
+            for (District district : userListMap.get(user)) {
+                if (district.getName().equals(nameDistrict)) {
+                    return district;
+                }
+            }
+        }
+        return null;
+    }
 }

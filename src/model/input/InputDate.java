@@ -38,4 +38,12 @@ public class InputDate {
     public void setNumberOfCrossings(int numberOfCrossings) {
         this.numberOfCrossings = numberOfCrossings;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n")
+                .append("Длина линии: ").append(lineLong).append("\n");
+                return String.valueOf(sb);
+    }
 }

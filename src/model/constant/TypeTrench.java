@@ -43,8 +43,8 @@ public class TypeTrench{
         SizeTrench sizeTrench = new SizeTrench();
         for (int i = 0; i < TYPE_TRENCH.length; i++) {
             if (TYPE_TRENCH[i].equals(type)) {
-                sizeTrench.setHeight(TRENCH_SIZE[i][0]);
-                sizeTrench.setWidth(TRENCH_SIZE[i][1]);
+                sizeTrench.setWidth(TRENCH_SIZE[i][0]);
+                sizeTrench.setHeight(TRENCH_SIZE[i][1]);
             }
         }
         return sizeTrench;

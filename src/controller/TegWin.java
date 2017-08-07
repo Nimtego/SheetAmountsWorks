@@ -5,5 +5,5 @@ package controller;
  * on 01.08.2017.
  */
 public enum TegWin {
-    USER_REG, SIMPLE_ERROR, SHEET_AMOUNT
+    USER_REG, SIMPLE_ERROR, SHEET_AMOUNT, CALCULATION_DATA
 }

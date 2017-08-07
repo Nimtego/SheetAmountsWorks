@@ -9,15 +9,14 @@ import model.user.UserContainer;
  * on 01.08.2017.
  */
 public class UserController {
-    private UserContainer userContainer;
+
 
     public UserController(UserContainer userContainer) {
-        this.userContainer = userContainer;
     }
 
     public void logIn(String nameUser, String password) throws SimpleMessageException {
         checkValidUserLog(nameUser, password);
-        User user = userContainer.getUserByName(nameUser);
+        User user = UserContainer.getInstance().getUserByName(nameUser);
         System.out.println(user);
         if (user == null) {
             throw new SimpleMessageException("Пользователя с таким именем не существует");
@@ -28,6 +27,7 @@ public class UserController {
     }
 
     public void singIn(String nameUser, String password) throws SimpleMessageException {
+        UserContainer userContainer = UserContainer.getInstance();
         checkValidUserLog(nameUser, password);
         if (nameUser.length() > 10) {
             throw new SimpleMessageException("Имя не более 10 знаков");

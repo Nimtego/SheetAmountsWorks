@@ -12,6 +12,7 @@ import view.windows.WindowView;
 import javax.swing.*;
 import java.util.List;
 
+import static model.constant.TypeTrench.TYPE_TRENCH;
 import static model.constant.WindowConstant.*;
 
 /**
@@ -40,6 +41,7 @@ public class WindowSheetAmount extends WindowView{
         edit.addActionListener(new ButtonsListenerEdit(this));
         calculateThis.addActionListener(new ButtonsListenerCalculateThis(this));
         calculateAll.addActionListener(new ButtonsListenerCalculateAll(this));
+        setTrenchType(TYPE_TRENCH);
         this.getContentPane().add(jPanel);
         this.setBounds(CENTER_LOCATION_X, CENTER_LOCATION_Y, SIZE_WIDTH, SIZE_HEIGHT);
 
@@ -80,5 +82,8 @@ public class WindowSheetAmount extends WindowView{
     }
     public String getTypeTrench() {
         return String.valueOf(comboBoxTypeTrench.getSelectedItem());
+    }
+    public String getSelectedDistrict() {
+        return String.valueOf(comboBoxDistrictsName.getSelectedItem());
     }
 }

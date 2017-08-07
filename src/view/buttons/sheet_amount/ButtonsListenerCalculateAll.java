@@ -16,6 +16,6 @@ public class ButtonsListenerCalculateAll extends ButtonsListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        owner.report(this);
     }
 }

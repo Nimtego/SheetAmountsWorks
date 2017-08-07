@@ -12,10 +12,9 @@ import java.util.List;
  * on 01.08.2017.
  */
 public class DataController {
-    private UserContainer userContainer;
 
-    public DataController(UserContainer userContainer) {
-        this.userContainer = userContainer;
+    public DataController(){
+
     }
 
     public boolean putDistrict(User user, District district) throws SimpleMessageException {
