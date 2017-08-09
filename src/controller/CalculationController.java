@@ -22,8 +22,8 @@ public class CalculationController {
         int crossing = inputDate.getNumberOfCrossings();
         Excavation excavation = calculateExcavation(width, height, lineLong);
         Fabric fabric = calculateFabric(width, lineLong, crossing);
-        WorkType workType = calculateWorkType(fabric.getGeneralLongCableMeters(),
-                                                fabric.getPipesMeters());
+        WorkType workType = calculateWorkType(fabric.getGeneralLongCableMeters().getValue(),
+                                                fabric.getPipesMeters().getValue());
         return new CalculationDate(excavation, fabric, workType);
     }
     private Excavation calculateExcavation(final int width, final int height, final float lineLong) {

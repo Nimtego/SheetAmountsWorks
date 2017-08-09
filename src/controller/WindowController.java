@@ -5,6 +5,7 @@ import model.user.User;
 import model.user.UserContainer;
 import view.StructWindow;
 import view.buttons.ButtonsListener;
+import view.buttons.ButtonsListenerToExcel;
 import view.buttons.sheet_amount.ButtonsListenerCalculateAll;
 import view.buttons.sheet_amount.ButtonsListenerCalculateThis;
 import view.buttons.sheet_amount.ButtonsListenerNewDistrict;
@@ -20,6 +21,8 @@ import view.windows.windows_colection.WindowSheetAmount;
 import view.windows.windows_colection.WindowSimpleError;
 import view.windows.windows_colection.WindowViewUserReg;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +32,7 @@ import static model.constant.TypeTrench.TYPE_TRENCH;
  * Created by myasnikov
  * on 01.08.2017.
  */
-public class WindowController {
+public class WindowController implements ActionListener{
     private Header owner;
     private Map<TegWin, WindowView> windowViewMap;
     private StructWindow structWindow = null;
@@ -76,6 +79,11 @@ public class WindowController {
     public void buttonReport(ButtonsListener buttonsListener) {
         System.out.println("hhh");
         WindowView windowView = structWindow.getActivity().getData();
+        if (windowView instanceof WindowCalculateData) {
+            if (buttonsListener instanceof ButtonsListenerToExcel) {
+                owner.generateExcel();
+            }
+        }
         if (windowView instanceof WindowViewUserReg) {
             if (buttonsListener instanceof ButtonsListenerLogIn) {
                 WindowViewUserReg windowViewUserReg = (WindowViewUserReg) buttonsListener.getOwner();
@@ -158,6 +166,10 @@ public class WindowController {
             sheetAmount();
         else
             display();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
     }
 }
 

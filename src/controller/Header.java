@@ -9,9 +9,13 @@ import model.session.Session;
 import model.user.User;
 import model.user.UserContainer;
 
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.*;
 
 import static controller.TegWin.*;
+import static model.calculation.Discrition.CAP;
 
 /**
  * Created by myasnikov
@@ -114,5 +118,83 @@ public class Header {
                     .append(dis.getCalculationDate());
         }
         windowController.simpleMessage(CALCULATION_DATA, "< " +currentUser.getLogIn() +" >\n" +String.valueOf(sb));
+    }
+
+    public void generateExcel() {
+        String pattern = "C:\\МЯСНИКОВ\\IDEA_Projeckt\\SimpleSheetAmount\\output\\Pattern.xlsx";
+        String dest = "C:\\МЯСНИКОВ\\IDEA_Projeckt\\SimpleSheetAmount\\output\\" +currentUser.getLogIn() +"_" +"project.xlsx";
+        File filePattern = new File(pattern);
+        File fileDest = new File(dest);
+        try {
+            Files.copy(filePattern.toPath(), fileDest.toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        ExcelParser excelParser = new ExcelParser();
+
+        try {
+            ExcelParser.generate(generateArray(), fileDest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public String[][] generateArray() {
+        List<District> districtList = UserContainer.getInstance().getDistrictByUserName(currentUser.getLogIn());
+        int rows = getRows(districtList);
+        String[][] excel = new String[rows][CAP.length];
+        System.out.println(rows);
+        int currentRows = 0;
+        int currentColumn = 0;
+        int serialNumber = 1;
+        for (int j = 0; j < CAP.length; j++) {
+            excel[currentRows][j] = CAP[j];
+        }
+        currentRows++;
+        for (District dis : districtList) {
+            String nameDis = dis.getName();
+            excel[currentRows++][0] =
+                    String.valueOf(serialNumber + ". \"" + nameDis + "\"");
+            List<String[][]> allWork = Arrays.asList(dis.getCalculationDate().getExcavation().formating(),
+                    dis.getCalculationDate().getFabric().formating(),
+                    dis.getCalculationDate().getWorkType().formating());
+            for (String[][] work : allWork) {
+                for (int i = 0; i < work.length; i++) {
+                    for (int j = 0; j < work[i].length; ) {
+                        if (currentColumn == 0) {
+                            excel[currentRows][currentColumn] = String.valueOf("   " +serialNumber + "." + (i+1));
+                            currentColumn++;
+                            continue;
+                        }
+                        System.out.println("i " +i +" j " +j +" row " +currentRows +" col " +currentColumn);
+                        excel[currentRows][currentColumn++] = work[i][j++];
+                    }
+                    currentColumn = 0;
+                    currentRows++;
+                }
+            }
+            serialNumber++;
+        }
+        return excel;
+    }
+
+
+    private int getRows(List<District> districtList) {
+        int count = 0;
+        List<String[][]> list = new ArrayList<>();
+        for (District district : districtList) {
+            String[][] str = district.getCalculationDate().getExcavation().formating();
+            String[][] str2 = district.getCalculationDate().getFabric().formating();
+            String[][] str3 = district.getCalculationDate().getWorkType().formating();
+            list.add(str);
+            list.add(str2);
+            list.add(str3);
+        }
+        for (String[][] string : list) {
+            count += string.length;
+        }
+        count += districtList.size() + 1;
+        return count;
     }
 }

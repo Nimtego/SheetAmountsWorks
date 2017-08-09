@@ -6,8 +6,8 @@ import controller.Header;
  */
 public class Solution {
     public static void main(String[] args) {
+        System.out.println("C:\\МЯСНИКОВ\\IDEA_Projeckt\\SimpleSheetAmount\\output\\");
         Header header = new Header();
         header.running();
-
     }
 }

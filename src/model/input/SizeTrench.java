@@ -5,6 +5,7 @@ package model.input;
  * on 26.07.2017.
  */
 public class SizeTrench {
+    private String description;
     private int height;
     private int width;
 
@@ -31,5 +32,12 @@ public class SizeTrench {
 
     public void setWidth(int width) {
         this.width = width;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public String getDescription() {
+        return description;
     }
 }
