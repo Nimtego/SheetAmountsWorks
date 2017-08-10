@@ -1,8 +1,8 @@
 package view.windows.windows_colection;
 
 import controller.WindowController;
-import view.buttons.user_reg.ButtonsListenerGuest;
 import view.buttons.user_reg.ButtonsListenerExit;
+import view.buttons.user_reg.ButtonsListenerGuest;
 import view.buttons.user_reg.ButtonsListenerLogIn;
 import view.buttons.user_reg.ButtonsListenerSingIn;
 import view.windows.WindowView;

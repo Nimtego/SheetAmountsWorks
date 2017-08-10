@@ -1,9 +1,6 @@
 package controller;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
@@ -24,19 +21,20 @@ public class ExcelParser {
             row = sheet.createRow(i);
             sheet.autoSizeColumn(i);
             for (int j = 0; j < array[i].length; j++) {
+                CellStyle style = workbook.createCellStyle();
+                style.setBorderBottom(CellStyle.BORDER_THIN);
+                style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+                style.setBorderLeft(CellStyle.BORDER_THIN);
+                style.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+                style.setBorderRight(CellStyle.BORDER_THIN);
+                style.setRightBorderColor(IndexedColors.BLACK.getIndex());
+                style.setBorderTop(CellStyle.BORDER_THIN);
+                style.setTopBorderColor(IndexedColors.BLACK.getIndex());
                 cell = row.createCell(j);
                 cell.setCellValue(array[i][j]);
+                cell.setCellStyle(style);
             }
         }
-/*        CellStyle style = workbook.createCellStyle();
-        style.setBorderBottom(CellStyle.BORDER_THIN);
-        style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
-        style.setBorderLeft(CellStyle.BORDER_THIN);
-        style.setLeftBorderColor(IndexedColors.GREEN.getIndex());
-        style.setBorderRight(CellStyle.BORDER_THIN);
-        style.setRightBorderColor(IndexedColors.BLUE.getIndex());
-        style.setBorderTop(CellStyle.BORDER_MEDIUM_DASHED);
-        style.setTopBorderColor(IndexedColors.BLACK.getIndex());*/
         workbook.write(new FileOutputStream(file));
         workbook.close();
     }

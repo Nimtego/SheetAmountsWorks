@@ -7,7 +7,7 @@ import view.StructWindow;
 import view.buttons.ButtonsListener;
 import view.buttons.ButtonsListenerToExcel;
 import view.buttons.sheet_amount.ButtonsListenerCalculateAll;
-import view.buttons.sheet_amount.ButtonsListenerCalculateThis;
+import view.buttons.sheet_amount.ButtonsListenerExpanded;
 import view.buttons.sheet_amount.ButtonsListenerNewDistrict;
 import view.buttons.simple_error.ButtonsListenerOk;
 import view.buttons.user_reg.ButtonsListenerExit;
@@ -52,6 +52,9 @@ public class WindowController implements ActionListener{
                 addWindow(windowViewMap.get(tegWin));
                 break;
             case CALCULATION_DATA:
+                addWindow(windowViewMap.get(tegWin));
+                break;
+            case SHEET_AMOUNT_EXP:
                 addWindow(windowViewMap.get(tegWin));
                 break;
         }
@@ -112,9 +115,9 @@ public class WindowController implements ActionListener{
                 String typeTrench = windowSheetAmount.getTypeTrench();
                 owner.registrSheetAmount(nameDistrict, lineLong, numberOfCrossing, typeTrench);
             }
-            if (buttonsListener instanceof ButtonsListenerCalculateThis) {
+            if (buttonsListener instanceof ButtonsListenerExpanded) {
                 WindowSheetAmount windowSheetAmount = (WindowSheetAmount) buttonsListener.getOwner();
-                owner.calculate(windowSheetAmount.getSelectedDistrict());
+                owner.expanded();
             }
             if (buttonsListener instanceof ButtonsListenerCalculateAll) {
                 WindowSheetAmount windowSheetAmount = (WindowSheetAmount) buttonsListener.getOwner();
@@ -139,6 +142,7 @@ public class WindowController implements ActionListener{
         StructWindow forDelete = structWindow.getActivity();
         forDelete.getData().setVisible(false);
         forDelete.getData().dispose();
+        //if (!(structWindow.getData() instanceof WindowViewUserReg))
         forDelete.delete();
         structWindow = structWindow.getActivity();
         display();

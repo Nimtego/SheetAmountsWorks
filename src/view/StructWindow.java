@@ -9,7 +9,7 @@ import java.util.List;
  * Created by myasnikov
  * on 04.08.2017.
  */
-public class StructWindow  {
+public class StructWindow {
     private StructWindow parent;
     private WindowView data;
     private List<StructWindow> nodes;
@@ -19,11 +19,13 @@ public class StructWindow  {
         parent = null;
         nodes = new ArrayList<>();
     }
+
     public boolean add(WindowView data) {
         StructWindow structWindow = new StructWindow(data);
         structWindow.parent = this;
         return nodes.add(structWindow);
     }
+
     public StructWindow getElement(WindowView date) {
         for (StructWindow structWindow : nodes) {
             if (structWindow.data.equals(date))
@@ -31,6 +33,7 @@ public class StructWindow  {
         }
         return null;
     }
+
     public StructWindow getParent() {
         return parent;
     }
@@ -41,6 +44,7 @@ public class StructWindow  {
         }
         return this;
     }
+
     public WindowView getData() {
         return data;
     }

@@ -4,10 +4,7 @@ package view.windows;
 
 import controller.TegWin;
 import controller.WindowController;
-import view.windows.windows_colection.WindowCalculateData;
-import view.windows.windows_colection.WindowSheetAmount;
-import view.windows.windows_colection.WindowSimpleError;
-import view.windows.windows_colection.WindowViewUserReg;
+import view.windows.windows_colection.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +22,7 @@ public class WindowViewFabric {
         windowViewMap.put(SIMPLE_ERROR, new WindowSimpleError(windowController));
         windowViewMap.put(SHEET_AMOUNT, new WindowSheetAmount(windowController));
         windowViewMap.put(CALCULATION_DATA, new WindowCalculateData(windowController));
+        windowViewMap.put(SHEET_AMOUNT_EXP, new WindowSheetAmountExpanded(windowController));
         return windowViewMap;
     }
 }

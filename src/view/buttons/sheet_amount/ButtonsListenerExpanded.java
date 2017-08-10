@@ -1,7 +1,7 @@
 package view.buttons.sheet_amount;
 
 import view.buttons.ButtonsListener;
-import view.windows.WindowView;
+import view.windows.windows_colection.WindowSheetAmount;
 
 import java.awt.event.ActionEvent;
 
@@ -9,8 +9,8 @@ import java.awt.event.ActionEvent;
  * Created by myasnikov
  * on 02.08.2017.
  */
-public class ButtonsListenerNewDistrict extends ButtonsListener {
-    public ButtonsListenerNewDistrict(WindowView windowSheetAmount) {
+public class ButtonsListenerExpanded  extends ButtonsListener {
+    public ButtonsListenerExpanded(WindowSheetAmount windowSheetAmount) {
         super(windowSheetAmount);
     }
 

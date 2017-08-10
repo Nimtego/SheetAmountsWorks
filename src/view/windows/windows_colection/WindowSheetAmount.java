@@ -3,8 +3,8 @@ package view.windows.windows_colection;
 import controller.WindowController;
 import model.district.District;
 import view.buttons.sheet_amount.ButtonsListenerCalculateAll;
-import view.buttons.sheet_amount.ButtonsListenerCalculateThis;
 import view.buttons.sheet_amount.ButtonsListenerEdit;
+import view.buttons.sheet_amount.ButtonsListenerExpanded;
 import view.buttons.sheet_amount.ButtonsListenerNewDistrict;
 import view.buttons.user_reg.ButtonsListenerExit;
 import view.windows.WindowView;
@@ -26,7 +26,7 @@ public class WindowSheetAmount extends WindowView{
     private JButton edit;
     private JFormattedTextField formattedTextLineLong;
     private JFormattedTextField formattedTextCountCrossing;
-    private JButton calculateThis;
+    private JButton expanded;
     private JButton calculateAll;
     private JComboBox<String> comboBoxTypeTrench;
     private JPanel jPanel;
@@ -39,7 +39,7 @@ public class WindowSheetAmount extends WindowView{
         exit.addActionListener(new ButtonsListenerExit(this));
         newDistrict.addActionListener(new ButtonsListenerNewDistrict(this));
         edit.addActionListener(new ButtonsListenerEdit(this));
-        calculateThis.addActionListener(new ButtonsListenerCalculateThis(this));
+        expanded.addActionListener(new ButtonsListenerExpanded(this));
         calculateAll.addActionListener(new ButtonsListenerCalculateAll(this));
         setTrenchType(TYPE_TRENCH);
         this.getContentPane().add(jPanel);
