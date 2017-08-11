@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import static model.constant.TypeTrench.TYPE_TRENCH;
+import static view.windows.windows_colection.WindowViewUserRegCopy.create;
 
 /**
  * Created by myasnikov
@@ -46,7 +47,7 @@ public class WindowController implements ActionListener{
     public void runWin(TegWin tegWin) {
         switch (tegWin) {
             case USER_REG:
-                addWindow(windowViewMap.get(tegWin))/*display(windowViewMap.get(tegWin))*/;
+                create();/*addWindow(windowViewMap.get(tegWin))*/;
                 break;
             case SHEET_AMOUNT:
                 addWindow(windowViewMap.get(tegWin));
@@ -59,6 +60,8 @@ public class WindowController implements ActionListener{
                 break;
         }
     }
+
+
 
     private void addWindow(WindowView windowView) {
         windowView.pack();

@@ -14,13 +14,20 @@ import java.io.IOException;
  */
 public class WindowViewUserRegCopy extends Application {
     @Override
-    public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("SheetAmountLoginWindow.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 400, 200));
+    public void start(Stage primaryStage) {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("sample_fxml/user_reg.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //primaryStage.setTitle("Sheet Amount");
+        assert root != null;
+        primaryStage.setScene(new Scene(root));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
-    public void run(String[] args) {
-        launch(args);
+    public static void create() {
+        launch();
     }
 }

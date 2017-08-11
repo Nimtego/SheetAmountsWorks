@@ -8,7 +8,6 @@ import model.input.InputDate;
 import model.session.Session;
 import model.user.User;
 import model.user.UserContainer;
-import view.windows.windows_colection.WindowViewUserRegCopy;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +35,6 @@ public class Header {
     }
 
     public void running() {
-        WindowViewUserRegCopy windowViewUserRegCopy = new WindowViewUserRegCopy();
         session = new Session();
         dataController = new DataController();
         windowController = new WindowController(this);
