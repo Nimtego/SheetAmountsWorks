@@ -16,8 +16,8 @@ public class CalculationController {
     public CalculationDate calculate(District district) {
         InputDate inputDate = district.getInputDate();
         SizeTrench sizeTrench = inputDate.getSizeTrench();
-        int width = sizeTrench.getWidth();
-        int height = sizeTrench.getHeight();
+        int width = (int) sizeTrench.getWidth(); // TODO: 14.08.2017 FLOAT!!!! 
+        int height = (int) sizeTrench.getHeight();
         float lineLong = inputDate.getLineLong();
         int crossing = inputDate.getNumberOfCrossings();
         Excavation excavation = calculateExcavation(width, height, lineLong);

@@ -3,14 +3,16 @@
   <grid id="27dc6" binding="jPanel" layout-manager="GridLayoutManager" row-count="16" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="543" height="435"/>
+      <xy x="20" y="20" width="661" height="472"/>
     </constraints>
-    <properties/>
+    <properties>
+      <autoscrolls value="true"/>
+    </properties>
     <border type="none"/>
     <children>
       <component id="1bf20" class="javax.swing.JFormattedTextField" binding="formattedNameDistrict">
         <constraints>
-          <grid row="1" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="1" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
@@ -18,7 +20,7 @@
       </component>
       <component id="6f98d" class="javax.swing.JFormattedTextField" binding="formattedTextBranches">
         <constraints>
-          <grid row="6" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="6" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
@@ -26,7 +28,7 @@
       </component>
       <component id="14e" class="javax.swing.JFormattedTextField" binding="formattedTextSupport">
         <constraints>
-          <grid row="10" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="10" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
@@ -42,13 +44,13 @@
       </component>
       <component id="1fd4c" class="javax.swing.JComboBox" binding="comboBoxTypeTrench">
         <constraints>
-          <grid row="2" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
       </component>
       <component id="e9f7d" class="javax.swing.JFormattedTextField" binding="formattedTextHeightTrench">
         <constraints>
-          <grid row="3" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="3" column="5" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
@@ -56,7 +58,7 @@
       </component>
       <component id="11e22" class="javax.swing.JFormattedTextField" binding="formattedTextWidthTrench">
         <constraints>
-          <grid row="4" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="4" column="5" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
@@ -88,7 +90,7 @@
       </component>
       <component id="acf39" class="javax.swing.JFormattedTextField" binding="formattedTextLineLong">
         <constraints>
-          <grid row="5" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="5" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
@@ -120,7 +122,7 @@
       </component>
       <component id="7b001" class="javax.swing.JFormattedTextField" binding="formattedTextLongCrossing">
         <constraints>
-          <grid row="7" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="7" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
@@ -150,7 +152,7 @@
       </component>
       <component id="d4dfd" class="javax.swing.JFormattedTextField" binding="formattedTextHeightSupport">
         <constraints>
-          <grid row="11" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="11" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
@@ -206,7 +208,7 @@
       </component>
       <component id="40082" class="javax.swing.JCheckBox" binding="alarmTapeCheckBox" default-binding="true">
         <constraints>
-          <grid row="13" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="13" column="5" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Alarm tape"/>
@@ -222,31 +224,17 @@
       </component>
       <component id="fe1bd" class="javax.swing.JCheckBox" binding="fillingCrushedStoneCheckBox" default-binding="true">
         <constraints>
-          <grid row="14" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="14" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Filling crushed stone"/>
         </properties>
       </component>
-      <component id="844c2" class="javax.swing.JButton" binding="buttonBack">
-        <constraints>
-          <grid row="15" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Back"/>
-        </properties>
-      </component>
-      <component id="36e15" class="javax.swing.JButton" binding="buttonAddDistrict">
-        <constraints>
-          <grid row="15" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Add district"/>
-        </properties>
-      </component>
       <component id="4586" class="javax.swing.JLabel">
         <constraints>
-          <grid row="8" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="8" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="87" height="16"/>
+          </grid>
         </constraints>
         <properties>
           <text value="Type pipe"/>
@@ -254,9 +242,33 @@
       </component>
       <component id="18c48" class="javax.swing.JComboBox" binding="comboBoxTypePipe">
         <constraints>
-          <grid row="8" column="4" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="8" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
+      </component>
+      <component id="844c2" class="javax.swing.JButton" binding="buttonBack">
+        <constraints>
+          <grid row="15" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Back"/>
+        </properties>
+      </component>
+      <component id="36e15" class="javax.swing.JButton" binding="buttonAddDistrict">
+        <constraints>
+          <grid row="15" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Add district"/>
+        </properties>
+      </component>
+      <component id="8dd20" class="javax.swing.JButton" binding="buttonCallculate">
+        <constraints>
+          <grid row="15" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Calcullate"/>
+        </properties>
       </component>
     </children>
   </grid>

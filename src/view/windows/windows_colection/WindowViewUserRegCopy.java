@@ -1,5 +1,6 @@
 package view.windows.windows_colection;
 
+import controller.micro_controllers.MicroController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,16 +14,15 @@ import java.io.IOException;
  * on 10.08.2017.
  */
 public class WindowViewUserRegCopy extends Application {
+    private MicroController microController;
+    public WindowViewUserRegCopy() {
+    }
+
     @Override
-    public void start(Stage primaryStage) {
-        Parent root = null;
-        try {
-            root = FXMLLoader.load(getClass().getResource("sample_fxml/user_reg.fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //primaryStage.setTitle("Sheet Amount");
-        assert root != null;
+    public void start(Stage primaryStage) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("sample_fxml/user_reg.fxml"));
+        Parent root = loader.load();
+        this.microController = loader.getController();
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.show();

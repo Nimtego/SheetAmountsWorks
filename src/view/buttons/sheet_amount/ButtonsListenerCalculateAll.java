@@ -1,7 +1,7 @@
 package view.buttons.sheet_amount;
 
 import view.buttons.ButtonsListener;
-import view.windows.windows_colection.WindowSheetAmount;
+import view.windows.WindowView;
 
 import java.awt.event.ActionEvent;
 
@@ -10,8 +10,8 @@ import java.awt.event.ActionEvent;
  * on 02.08.2017.
  */
 public class ButtonsListenerCalculateAll extends ButtonsListener {
-    public ButtonsListenerCalculateAll(WindowSheetAmount windowSheetAmount) {
-        super(windowSheetAmount);
+    public ButtonsListenerCalculateAll(WindowView windowView) {
+        super(windowView);
     }
 
     @Override

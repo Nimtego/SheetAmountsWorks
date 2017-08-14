@@ -1,26 +1,28 @@
 package model.input;
 
+import model.calculation.Volume;
+
 /**
  * Created by myasnikov
  * on 26.07.2017.
  */
 public class InputDate {
-    private long lineLong;
+    private Volume<Float> lineLong;
     private SizeTrench sizeTrench;
-    private int numberOfCrossings;
+    private Volume<Integer> numberOfCrossings;
 
-    public InputDate(long lineLong, SizeTrench sizeTrench, int numberOfCrossings) {
-        this.lineLong = lineLong;
+    public InputDate(float lineLong, SizeTrench sizeTrench, int numberOfCrossings) {
+        this.lineLong = new Volume<>("Длинна", "м.", lineLong);
         this.sizeTrench = sizeTrench;
-        this.numberOfCrossings = numberOfCrossings;
+        this.numberOfCrossings = new Volume<>("Количество пересечений", "шт.", numberOfCrossings);
     }
 
-    public long getLineLong() {
-        return lineLong;
+    public float getLineLong() {
+        return lineLong.getValue();
     }
 
-    public void setLineLong(long lineLong) {
-        this.lineLong = lineLong;
+    public void setLineLong(float lineLong) {
+        this.lineLong = new Volume<>("Длинна", "м.", lineLong);
     }
 
     public SizeTrench getSizeTrench() {
@@ -32,18 +34,21 @@ public class InputDate {
     }
 
     public int getNumberOfCrossings() {
-        return numberOfCrossings;
+        return numberOfCrossings.getValue();
     }
 
     public void setNumberOfCrossings(int numberOfCrossings) {
-        this.numberOfCrossings = numberOfCrossings;
+        this.numberOfCrossings = new Volume<>("Количество пересечений", "шт.", numberOfCrossings);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\n")
-                .append("Длина линии: ").append(lineLong).append("\n");
+                .append(lineLong.getDescription()).append(" ")
+                .append(lineLong.getValue()).append(" ")
+                .append(lineLong.getUnit())
+                .append("\n");
                 return String.valueOf(sb);
     }
 }
