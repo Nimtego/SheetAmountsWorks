@@ -8,13 +8,13 @@ import model.calculation.Volume;
  */
 public class SizeTrench {
     private String description;
-    private Volume<? extends Number> height;
-    private Volume<? extends Number> width;
+    private Volume<Float> height;
+    private Volume<Float> width;
 
     public SizeTrench() {
     }
 
-    public SizeTrench(Number height, Number width) {
+    public SizeTrench(float height, float width) {
         this.height = new Volume<>("Высота", "мм", height);
         this.width = new Volume<>("Ширина", "мм", width);
     }
@@ -24,15 +24,15 @@ public class SizeTrench {
         return (Float) height.getValue();
     }
 
-    public void setHeight(int height) {
-        this.height = new Volume<>("Высота", "мм", height);;
+    public void setHeight(float height) {
+        this.height = new Volume<>("Высота", "мм", height);
     }
 
     public float getWidth() {
         return (Float) width.getValue();
     }
 
-    public void setWidth(int width) {
+    public void setWidth(float width) {
         this.width = new Volume<>("Ширина", "мм", width);
     }
 

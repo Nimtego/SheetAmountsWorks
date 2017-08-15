@@ -46,13 +46,14 @@ public class WindowSheetAmount extends WindowView{
         this.setBounds(CENTER_LOCATION_X, CENTER_LOCATION_Y, SIZE_WIDTH, SIZE_HEIGHT);
 
     }
-    public void setStartingCondition(String userName, List<District> districtList) {
+    public void startingCondition(String userName, List<District> districtList) {
         String str = String.valueOf(comboBoxDistrictsName.getSelectedItem());
         comboBoxDistrictsName.removeAllItems();
         comboBoxTypeTrench.removeAllItems();
         for (District district : districtList) {
             comboBoxDistrictsName.addItem(district.getName());
         }
+        setTrenchType(TYPE_TRENCH);
         District district = null;
         this.userName.setText(" < " +userName +" > ");
         for (District dis : districtList) {

@@ -10,72 +10,51 @@ import java.util.List;
  * on 04.08.2017.
  */
 public class StructWindow {
-    private StructWindow parent;
-    private WindowView data;
-    private List<StructWindow> nodes;
+    private List<WindowView> windowViewList;
 
+    public StructWindow() {
+        windowViewList = new ArrayList<>();
+    }
     public StructWindow(WindowView data) {
-        this.data = data;
-        parent = null;
-        nodes = new ArrayList<>();
+        windowViewList = new ArrayList<>();
+        windowViewList.add(data);
     }
 
-    public boolean add(WindowView data) {
-        StructWindow structWindow = new StructWindow(data);
-        structWindow.parent = this;
-        return nodes.add(structWindow);
+    public void add(WindowView data) {
+        windowViewList.remove(data);
+        windowViewList.add(0, data);
     }
 
-    public StructWindow getElement(WindowView date) {
-        for (StructWindow structWindow : nodes) {
-            if (structWindow.data.equals(date))
-                return structWindow;
+
+    public WindowView getActivity() {
+        if (windowViewList.isEmpty()) {
+            return null;
         }
-        return null;
+        return windowViewList.get(0);
     }
 
-    public StructWindow getParent() {
-        return parent;
+    public void deleteActivity() {
+        windowViewList.remove(getActivity());
     }
 
-    public StructWindow getActivity() {
-        if (!nodes.isEmpty()) {
-            return nodes.get(0);
+
+    public void allInvisible() {
+        for (WindowView windowView : windowViewList) {
+            windowView.setVisible(false);
         }
-        return this;
     }
 
-    public WindowView getData() {
-        return data;
+    public void removeActivity() {
+        WindowView windowView = windowViewList.remove(0);
+        windowView.setVisible(false);
+        windowView.dispose();
     }
 
-    public void deleteAndDispose() {
-        if (nodes != null) {
-            for (int i = 0; i < nodes.size(); i++) {
-                nodes.get(i).deleteAndDispose();
-            }
-        }
-        data.setVisible(false);
-        data.dispose();
-        nodes.clear();
-        parent.deleteAndDispose();
+    public int getSize() {
+        return windowViewList.size();
     }
 
-    public List<StructWindow> getNodes() {
-        return nodes;
-    }
-
-    public void shiftStack() {
-        nodes.remove(0).parent = null;
-    }
-
-    public void delete() {
-        parent.nodes.remove(this);
-        parent = null;
-        if (nodes != null) {
-            for (StructWindow st : nodes) {
-                st.parent = null;
-            }
-        }
+    public boolean isEmpty() {
+        return windowViewList.isEmpty();
     }
 }

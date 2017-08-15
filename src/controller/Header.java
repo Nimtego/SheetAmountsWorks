@@ -1,10 +1,13 @@
 package controller;
 
 import model.calculation.CalculationDate;
+import model.constant.KeyWorks;
 import model.constant.TypeTrench;
 import model.district.District;
 import model.exceptions.SimpleMessageException;
 import model.input.InputDate;
+import model.input.InputDateExpanded;
+import model.input.SizeTrench;
 import model.session.Session;
 import model.user.User;
 import model.user.UserContainer;
@@ -15,9 +18,11 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static controller.TegWin.*;
 import static model.calculation.Discrition.CAP;
+import static model.constant.KeyWorks.*;
 
 /**
  * Created by myasnikov
@@ -46,9 +51,9 @@ public class Header {
     public void userLogIn(String nameUser, String password) {
         try {
             userController.logIn(nameUser, password);
-            windowController.simpleMessage(SIMPLE_ERROR, "Welcome < " + nameUser +" >");
             currentUser = UserContainer.getInstance().getUserByName(nameUser);
             windowController.runWin(SHEET_AMOUNT);
+            windowController.simpleMessage(SIMPLE_ERROR, "Welcome < " + nameUser +" >");
         } catch (SimpleMessageException e) {
             windowController.simpleMessage(SIMPLE_ERROR, e.getLocalizedMessage());
         }
@@ -56,12 +61,12 @@ public class Header {
     public void userSignIn(String nameUser, String password) {
         try {
             userController.singIn(nameUser, password);
+            currentUser = UserContainer.getInstance().getUserByName(nameUser);
+            windowController.runWin(SHEET_AMOUNT);
             windowController.simpleMessage(SIMPLE_ERROR,
                     "You data\n" + "Login/name: "
                             + nameUser + "\n" + "Password: "
                             + password);
-            currentUser = UserContainer.getInstance().getUserByName(nameUser);
-            windowController.runWin(SHEET_AMOUNT);
         } catch (SimpleMessageException e) {
             windowController.simpleMessage(SIMPLE_ERROR, e.getLocalizedMessage());
         }
@@ -202,5 +207,64 @@ public class Header {
 
     public void expanded() {
         windowController.runWin(SHEET_AMOUNT_EXP);
+    }
+
+    public void sheetAmount(Map<KeyWorks, String> worksVolumeMap, List<Boolean> checkBox) {
+        System.out.println("Works sheet amount");
+        for (KeyWorks keyWorks : worksVolumeMap.keySet()) {
+            if (worksVolumeMap.get(keyWorks).isEmpty() &&
+                    !keyWorks.equals(QUANTITY_SUPPORT) &&
+                    !keyWorks.equals(HEIGHT_SUPPORT)) {
+                windowController.simpleMessage(SIMPLE_ERROR, "Пустые поля");
+            }
+        }
+
+        String tmp = "";
+        float lineLong = 0;
+        int branches = 0;
+        float longCrossing = 0;
+        int pipeStock = 0;
+        int quantitySupport = 0;
+        int heightSupport = 0;
+        String pipeType = worksVolumeMap.get(PIPE_TYPE);
+
+        try {
+            tmp = worksVolumeMap.get(LINE_LONG);
+            lineLong = Float.parseFloat(tmp);
+            tmp = worksVolumeMap.get(QUANTITY_BRANCHES);
+            branches = Integer.parseInt(tmp);
+            tmp = worksVolumeMap.get(LONG_CROSSING);
+            longCrossing = Float.parseFloat(tmp);
+            tmp = worksVolumeMap.get(PIPE_STOCK);
+            pipeStock = Integer.parseInt(tmp);
+            if (!worksVolumeMap.get(QUANTITY_SUPPORT).isEmpty() &&
+                    !worksVolumeMap.get(HEIGHT_SUPPORT).isEmpty()) {
+                tmp = worksVolumeMap.get(QUANTITY_SUPPORT);
+                quantitySupport = Integer.parseInt(tmp);
+                tmp = worksVolumeMap.get(HEIGHT_SUPPORT);
+                heightSupport = Integer.parseInt(tmp);
+            }
+        } catch (NumberFormatException e) {
+            windowController.simpleMessage(SIMPLE_ERROR, "\"" +tmp +"\"" +" - не подходит");
+        }
+        SizeTrench sizeTrench = TypeTrench.size(worksVolumeMap.get(TRENCH_TYPE));
+        InputDateExpanded inputDateExpanded =
+                new InputDateExpanded(lineLong, sizeTrench, 1); // TODO: 15.08.2017 кол пересечек не нужн
+        inputDateExpanded.setQuantityBranches(branches);
+        inputDateExpanded.setLongCrossing(longCrossing);
+        inputDateExpanded.setPipeStock(pipeStock);
+        inputDateExpanded.setQuantitySupport(quantitySupport);
+        inputDateExpanded.setHeightSupport(heightSupport);
+        String name = worksVolumeMap.get(NAME_DISTRICT);
+        District district = new District(name, inputDateExpanded);
+        try {
+            if (dataController.putDistrict(currentUser, district)) {
+                windowController.simpleMessage(SIMPLE_ERROR, "Участок < " + district.getName() + " > добавлен");
+                windowController.update();
+            }
+        } catch (SimpleMessageException e) {
+            windowController.simpleMessage(SIMPLE_ERROR, e.getMessage());
+        }
+        windowController.update();
     }
 }

@@ -20,7 +20,7 @@ public class WindowViewUserRegCopy extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("sample_fxml/user_reg.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("sample_fxml/SheetAmount.fxml"));
         Parent root = loader.load();
         this.microController = loader.getController();
         primaryStage.setScene(new Scene(root));

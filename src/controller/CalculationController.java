@@ -16,8 +16,8 @@ public class CalculationController {
     public CalculationDate calculate(District district) {
         InputDate inputDate = district.getInputDate();
         SizeTrench sizeTrench = inputDate.getSizeTrench();
-        int width = (int) sizeTrench.getWidth(); // TODO: 14.08.2017 FLOAT!!!! 
-        int height = (int) sizeTrench.getHeight();
+        float width = sizeTrench.getWidth(); // TODO: 14.08.2017 FLOAT!!!!
+        float height = sizeTrench.getHeight();
         float lineLong = inputDate.getLineLong();
         int crossing = inputDate.getNumberOfCrossings();
         Excavation excavation = calculateExcavation(width, height, lineLong);
@@ -26,7 +26,7 @@ public class CalculationController {
                                                 fabric.getPipesMeters().getValue());
         return new CalculationDate(excavation, fabric, workType);
     }
-    private Excavation calculateExcavation(final int width, final int height, final float lineLong) {
+    private Excavation calculateExcavation(final float width, final float height, final float lineLong) {
         float diggingTrenchInCube; //Рытье траншеи
         float sandInCube; //Устройство постели из песка для траншеи
         float backfillingCube; //Обратная засыпка траншеи грунтом.
@@ -44,7 +44,7 @@ public class CalculationController {
                                 garbageRemovalCube(garbageRemovalCube).
                                 build();
     }
-    private Fabric calculateFabric(final int width, float lineLong, int crossing) {
+    private Fabric calculateFabric(final float width, float lineLong, int crossing) {
         float syntheticMaterialInSquare; //Устройство прослойки из нетканого синтетиче-ского материала
         float pipesMeters; //Прокладка трубы
         int quantityCable; //Прокладка кабеля при весе 1м до 10кг штук/веток

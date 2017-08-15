@@ -6,6 +6,7 @@ package model.constant;
  */
 public enum KeyWorks {
     NAME_DISTRICT,
+    TRENCH_TYPE,
     LINE_LONG,
     NUMBER_OF_CROSSING,
     TRENCH_HEIGHT,
@@ -14,5 +15,6 @@ public enum KeyWorks {
     LONG_CROSSING,
     PIPE_STOCK,
     QUANTITY_SUPPORT,
-    HEIGHT_SUPPORT
+    HEIGHT_SUPPORT,
+    PIPE_TYPE
 }

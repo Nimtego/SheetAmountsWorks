@@ -38,6 +38,9 @@ public class WindowViewUserReg extends WindowView {
         this.setBounds(CENTER_LOCATION_X, CENTER_LOCATION_Y, SIZE_WIDTH, SIZE_HEIGHT);
         this.setResizable(false);
     }
+
+
+
     public String getLogIn() {
         if (formattedUserName.getText().isEmpty())
             return null;

@@ -1,9 +1,7 @@
 package controller;
 
 import model.constant.KeyWorks;
-import model.constant.TypeTrench;
 import model.district.District;
-import model.input.SizeTrench;
 import model.user.User;
 import model.user.UserContainer;
 import view.StructWindow;
@@ -23,12 +21,12 @@ import view.windows.windows_colection.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static model.constant.KeyWorks.*;
-import static model.constant.TypeTrench.TYPE_TRENCH;
 
 /**
  * Created by myasnikov
@@ -41,6 +39,7 @@ public class WindowController implements ActionListener{
 
     public WindowController(Header owner) {
         this.owner = owner;
+        structWindow = new StructWindow();
         windowViewMap = WindowViewFabric.simpleMapView(this);
 
     }
@@ -49,47 +48,55 @@ public class WindowController implements ActionListener{
         switch (tegWin) {
             case USER_REG:
                 addWindow(windowViewMap.get(tegWin));
-                //create();/*addWindow(windowViewMap.get(tegWin))*/;
+                //WindowViewUserRegCopy.create();/*addWindow(windowViewMap.get(tegWin))*/;
                 break;
             case SHEET_AMOUNT:
-                addWindow(windowViewMap.get(tegWin));
+                addWindow(preparation(windowViewMap.get(tegWin)));
                 break;
             case CALCULATION_DATA:
                 addWindow(windowViewMap.get(tegWin));
                 break;
             case SHEET_AMOUNT_EXP:
-                addWindow(windowViewMap.get(tegWin));
+                addWindow(preparation(windowViewMap.get(tegWin)));
                 break;
         }
     }
-
+    private WindowView preparation(WindowView windowView) {
+        WindowView prepare;
+        if (windowView instanceof WindowSheetAmount) {
+            User user = owner.getCurrentUser();
+            List<District> districtList = UserContainer.getInstance().getDistrictByUserName(user.getLogIn());
+            prepare = new WindowSheetAmount(this);
+            ((WindowSheetAmount)prepare).startingCondition(user.getLogIn(), districtList);
+            return prepare;
+        }
+        if (windowView instanceof WindowSheetAmountExpanded) {
+            User user = owner.getCurrentUser();
+            List<District> districtList = UserContainer.getInstance().getDistrictByUserName(user.getLogIn());
+            prepare = new WindowSheetAmountExpanded(this);
+            ((WindowSheetAmountExpanded)prepare).startingCondition(user.getLogIn(), districtList);
+            return prepare;
+        }
+        return null;
+    }
 
 
     private void addWindow(WindowView windowView) {
-        if (windowView instanceof WindowSheetAmountExpanded) { // TODO: 14.08.2017 переделать 
-            ((WindowSheetAmountExpanded) windowView).setUserName(" <" +owner.getCurrentUser().getLogIn() +">");
-        }
         windowView.pack();
-        if (structWindow != null) {
-            structWindow.add(windowView);
-        }
-        else {
-            structWindow = new StructWindow(windowView);
-        }
+        structWindow.add(windowView);
         display();
     }
 
     private void display() {
-        structWindow.getData().setVisible(false);
-        for (StructWindow struct : structWindow.getNodes()) {
-            struct.getData().setVisible(false);
-        }
-        structWindow.getActivity().getData().setVisible(true);
+        structWindow.allInvisible();
+        if (!structWindow.isEmpty())
+            structWindow.getActivity().setVisible(true);
+        System.out.println(structWindow.getSize());
     }
 
     public void buttonReport(ButtonsListener buttonsListener) {
         System.out.println("buttonReport");
-        WindowView windowView = structWindow.getActivity().getData();
+        WindowView windowView = structWindow.getActivity();
         if (windowView instanceof WindowCalculateData) {
             if (buttonsListener instanceof ButtonsListenerToExcel) {
                 owner.generateExcel();
@@ -130,31 +137,31 @@ public class WindowController implements ActionListener{
             }
         }
         if (windowView instanceof WindowSheetAmountExpanded) {
-            if (buttonsListener instanceof ButtonsListenerCalculateAll) {
+            if (buttonsListener instanceof ButtonsListenerNewDistrict) {
+                System.out.println("ButtonsListenerNewDistrict");
                 WindowSheetAmountExpanded windowSheetAmountExpanded =
                         (WindowSheetAmountExpanded) buttonsListener.getOwner();
+                
                 Map<KeyWorks, String> worksVolumeMap = new HashMap<>();
-                SizeTrench sizeTrench = TypeTrench.size(windowSheetAmountExpanded.getTypeTrench());
-
                 worksVolumeMap.put(NAME_DISTRICT, windowSheetAmountExpanded.getNameDistrict());
-                worksVolumeMap.put(TRENCH_HEIGHT, String.valueOf(sizeTrench.getHeight()));
-                worksVolumeMap.put(TRENCH_WIDTH, String.valueOf(sizeTrench.getWidth()));
+                worksVolumeMap.put(TRENCH_TYPE, windowSheetAmountExpanded.getTypeTrench());
                 worksVolumeMap.put(LINE_LONG, windowSheetAmountExpanded.getLineLOng());
                 worksVolumeMap.put(QUANTITY_BRANCHES, windowSheetAmountExpanded.getBranches());
                 worksVolumeMap.put(LONG_CROSSING, windowSheetAmountExpanded.getLongCrossing());
                 worksVolumeMap.put(PIPE_STOCK, windowSheetAmountExpanded.getPipeStock());
+                worksVolumeMap.put(PIPE_TYPE, windowSheetAmountExpanded.getPipeType());
                 worksVolumeMap.put(QUANTITY_SUPPORT, windowSheetAmountExpanded.getQuantitySupport());
                 worksVolumeMap.put(HEIGHT_SUPPORT, windowSheetAmountExpanded.getHeightSupport());
-                // TODO: 14.08.2017  
-/*                String nameDistrict = windowSheetAmountExpanded.getNameDistrict();
-                String lineLong = windowSheetAmountExpanded.getLineLong();
-                String numberOfCrossing = windowSheetAmountExpanded.getCrossing();
-                String typeTrench = windowSheetAmountExpanded.getTypeTrench();
-                owner.registrSheetAmount(nameDistrict, lineLong, numberOfCrossing, typeTrench);*/
+                
+                List<Boolean> checkBox = new ArrayList<>();
+                checkBox.add(windowSheetAmountExpanded.isSynthetic());
+                checkBox.add(windowSheetAmountExpanded.isPlates());
+                checkBox.add(windowSheetAmountExpanded.isAlarmTape());
+                checkBox.add(windowSheetAmountExpanded.isBoard());
+                checkBox.add(windowSheetAmountExpanded.isCrushedStone());
+                owner.sheetAmount(worksVolumeMap, checkBox);
             }
-            if (buttonsListener instanceof ButtonsListenerExpanded) {owner.expanded();}
             if (buttonsListener instanceof ButtonsListenerCalculateAll) {
-                WindowSheetAmount windowSheetAmount = (WindowSheetAmount) buttonsListener.getOwner();
                 owner.calculateAll();
             }
         }
@@ -173,12 +180,7 @@ public class WindowController implements ActionListener{
 
     private void deleteWindow() {
         System.out.println("test");
-        StructWindow forDelete = structWindow.getActivity();
-        forDelete.getData().setVisible(false);
-        forDelete.getData().dispose();
-        //if (!(structWindow.getData() instanceof WindowViewUserReg))
-        forDelete.delete();
-        structWindow = structWindow.getActivity();
+        structWindow.removeActivity();
         display();
     }
 
@@ -191,19 +193,22 @@ public class WindowController implements ActionListener{
         addWindow(windowSimpleError);
     }
 
-    public void sheetAmount() {
+/*    public void sheetAmount() {
         User user = owner.getCurrentUser();
         List<District> districtList = UserContainer.getInstance().getDistrictByUserName(user.getLogIn());
-        ((WindowSheetAmount) structWindow.getData()).setStartingCondition(user.getLogIn(), districtList);
-        ((WindowSheetAmount) structWindow.getData()).setTrenchType(TYPE_TRENCH);
+        if (structWindow.getActivity() instanceof WindowSheetAmount) {
+            ((WindowSheetAmount) structWindow.getActivity()).setStartingCondition(user.getLogIn(), districtList);
+            ((WindowSheetAmount) structWindow.getActivity()).setTrenchType(TYPE_TRENCH);
+        }
+        if (structWindow.getActivity() instanceof WindowSheetAmountExpanded) {
+            ((WindowSheetAmountExpanded) structWindow.getActivity()).setStartingCondition(user.getLogIn(), districtList);
+            ((WindowSheetAmountExpanded) structWindow.getActivity()).setTrenchType(TYPE_TRENCH);
+        }
         display();
-    }
+    }*/
 
     public void update() {
-        if (structWindow.getData() instanceof WindowSheetAmount)
-            sheetAmount();
-        else
-            display();
+        addWindow(structWindow.getActivity());
     }
 
     @Override

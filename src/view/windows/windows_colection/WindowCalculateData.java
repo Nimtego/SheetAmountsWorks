@@ -26,6 +26,8 @@ public class WindowCalculateData extends WindowView {
         this.getContentPane().add(jPanel);
         this.setBounds(CENTER_LOCATION_X, CENTER_LOCATION_Y, SIZE_WIDTH, SIZE_HEIGHT);
     }
+
+
     public void setTextAreaCalculateData(String string) {
         this.textAreaCalculateData.setText(string);
     }
