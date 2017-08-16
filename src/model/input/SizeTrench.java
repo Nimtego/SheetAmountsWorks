@@ -25,7 +25,7 @@ public class SizeTrench {
     }
 
     public void setHeight(float height) {
-        this.height = new Volume<>("Высота", "мм", height);
+        this.height = new Volume<>("Высота", "мм", height);;
     }
 
     public float getWidth() {
@@ -41,5 +41,13 @@ public class SizeTrench {
     }
     public String getDescription() {
         return description;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Глубина ").append(height.getValue()).append(" м.")
+                .append("Ширина ").append(width.getValue()).append(" м.");
+        return String.valueOf(sb);
     }
 }

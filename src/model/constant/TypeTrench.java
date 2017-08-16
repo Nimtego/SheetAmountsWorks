@@ -50,4 +50,22 @@ public class TypeTrench{
         }
         return sizeTrench;
     }
+
+    public static String trenchBySize(SizeTrench sizeTrench) {
+        String trench = "";
+        int number = 0;
+        for (int i = 0; i < TRENCH_SIZE.length; i++) {
+            for (int k = 0; k < TRENCH_SIZE[i].length; k++) {
+                if (TRENCH_SIZE[i][k] == sizeTrench.getHeight())
+                    number++;
+                if (TRENCH_SIZE[i][k] == sizeTrench.getWidth())
+                    number++;
+            }
+            if (number == 2) {
+                trench = TYPE_TRENCH[i];
+                break;
+            }
+        }
+        return trench;
+    }
 }

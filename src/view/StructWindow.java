@@ -49,7 +49,12 @@ public class StructWindow {
         windowView.setVisible(false);
         windowView.dispose();
     }
+    public void removeActivity(WindowView windowView) {
+        windowView.setVisible(false);
+        windowView.dispose();
+        windowViewList.remove(windowView);
 
+    }
     public int getSize() {
         return windowViewList.size();
     }

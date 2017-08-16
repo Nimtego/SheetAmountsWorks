@@ -13,6 +13,7 @@ public class InputDateExpanded extends InputDate {
     private String pipeType;
     private Volume<Integer> quantitySupport;
     private Volume<Integer> heightSupport;
+    private Additional additional;
 
     public InputDateExpanded(float lineLong, SizeTrench sizeTrench, int numberOfCrossings) {
         super(lineLong, sizeTrench, numberOfCrossings);
@@ -64,5 +65,12 @@ public class InputDateExpanded extends InputDate {
 
     public void setHeightSupport(int heightSupport) {
         this.heightSupport = new Volume<>("Высота опор освещения", "м.", heightSupport);
+    }
+
+    public void setAdditional(Additional additional) {
+        this.additional = additional;
+    }
+    public Additional getAdditional() {
+        return additional;
     }
 }

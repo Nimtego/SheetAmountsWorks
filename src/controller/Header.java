@@ -6,9 +6,6 @@ import model.constant.TypeTrench;
 import model.district.District;
 import model.exceptions.SimpleMessageException;
 import model.input.InputDate;
-import model.input.InputDateExpanded;
-import model.input.SizeTrench;
-import model.session.Session;
 import model.user.User;
 import model.user.UserContainer;
 
@@ -22,14 +19,12 @@ import java.util.Map;
 
 import static controller.TegWin.*;
 import static model.calculation.Discrition.CAP;
-import static model.constant.KeyWorks.*;
 
 /**
  * Created by myasnikov
  * on 26.07.2017.
  */
 public class Header {
-    private Session session;
     private WindowController windowController;
     private DataController dataController;
     private UserController userController;
@@ -40,10 +35,9 @@ public class Header {
     }
 
     public void running() {
-        session = new Session();
         dataController = new DataController();
         windowController = new WindowController(this);
-        userController = new UserController(session.getUserContainer());
+        userController = new UserController(UserContainer.getInstance());
         calculationController = new CalculationController();
         windowController.runWin(USER_REG);
     }
@@ -95,8 +89,8 @@ public class Header {
             District district = new District(nameDistrict, inputDate);
             try {
                 if (dataController.putDistrict(currentUser, district)) {
+                    windowController.runWin(SHEET_AMOUNT);
                     windowController.simpleMessage(SIMPLE_ERROR, "Участок < " + district.getName() + " > добавлен");
-                    windowController.update();
                 }
             } catch (SimpleMessageException e) {
                 windowController.simpleMessage(SIMPLE_ERROR, e.getMessage());
@@ -144,7 +138,7 @@ public class Header {
         try {
             ExcelParser.generate(generateArray(), fileDest);
         } catch (IOException e) {
-            e.printStackTrace();
+            windowController.simpleMessage(SIMPLE_ERROR, e.getMessage());
         }
     }
     public String[][] generateArray() {
@@ -162,7 +156,12 @@ public class Header {
         for (District dis : districtList) {
             String nameDis = dis.getName();
             excel[currentRows++][0] =
-                    String.valueOf(serialNumber + ". \"" + nameDis + "\"");
+                    String.valueOf(serialNumber
+                                    + ". \""
+                                    + nameDis
+                                    + "\"  длинна - "
+                                    +dis.getInputDate().getLineLong()
+                                    +" м" +" тип траншеи - " +dis.getInputDate().getSizeTrench());
             List<String[][]> allWork = Arrays.asList(dis.getCalculationDate().getExcavation().formating(),
                     dis.getCalculationDate().getFabric().formating(),
                     dis.getCalculationDate().getWorkType().formating());
@@ -209,62 +208,15 @@ public class Header {
         windowController.runWin(SHEET_AMOUNT_EXP);
     }
 
-    public void sheetAmount(Map<KeyWorks, String> worksVolumeMap, List<Boolean> checkBox) {
-        System.out.println("Works sheet amount");
-        for (KeyWorks keyWorks : worksVolumeMap.keySet()) {
-            if (worksVolumeMap.get(keyWorks).isEmpty() &&
-                    !keyWorks.equals(QUANTITY_SUPPORT) &&
-                    !keyWorks.equals(HEIGHT_SUPPORT)) {
-                windowController.simpleMessage(SIMPLE_ERROR, "Пустые поля");
-            }
-        }
-
-        String tmp = "";
-        float lineLong = 0;
-        int branches = 0;
-        float longCrossing = 0;
-        int pipeStock = 0;
-        int quantitySupport = 0;
-        int heightSupport = 0;
-        String pipeType = worksVolumeMap.get(PIPE_TYPE);
-
+    public void sheetAmount(Map<KeyWorks, String> worksVolumeMap, Map<KeyWorks, Boolean> options) {
         try {
-            tmp = worksVolumeMap.get(LINE_LONG);
-            lineLong = Float.parseFloat(tmp);
-            tmp = worksVolumeMap.get(QUANTITY_BRANCHES);
-            branches = Integer.parseInt(tmp);
-            tmp = worksVolumeMap.get(LONG_CROSSING);
-            longCrossing = Float.parseFloat(tmp);
-            tmp = worksVolumeMap.get(PIPE_STOCK);
-            pipeStock = Integer.parseInt(tmp);
-            if (!worksVolumeMap.get(QUANTITY_SUPPORT).isEmpty() &&
-                    !worksVolumeMap.get(HEIGHT_SUPPORT).isEmpty()) {
-                tmp = worksVolumeMap.get(QUANTITY_SUPPORT);
-                quantitySupport = Integer.parseInt(tmp);
-                tmp = worksVolumeMap.get(HEIGHT_SUPPORT);
-                heightSupport = Integer.parseInt(tmp);
-            }
-        } catch (NumberFormatException e) {
-            windowController.simpleMessage(SIMPLE_ERROR, "\"" +tmp +"\"" +" - не подходит");
-        }
-        SizeTrench sizeTrench = TypeTrench.size(worksVolumeMap.get(TRENCH_TYPE));
-        InputDateExpanded inputDateExpanded =
-                new InputDateExpanded(lineLong, sizeTrench, 1); // TODO: 15.08.2017 кол пересечек не нужн
-        inputDateExpanded.setQuantityBranches(branches);
-        inputDateExpanded.setLongCrossing(longCrossing);
-        inputDateExpanded.setPipeStock(pipeStock);
-        inputDateExpanded.setQuantitySupport(quantitySupport);
-        inputDateExpanded.setHeightSupport(heightSupport);
-        String name = worksVolumeMap.get(NAME_DISTRICT);
-        District district = new District(name, inputDateExpanded);
-        try {
-            if (dataController.putDistrict(currentUser, district)) {
-                windowController.simpleMessage(SIMPLE_ERROR, "Участок < " + district.getName() + " > добавлен");
-                windowController.update();
+            if (dataController.putDistrict(currentUser, worksVolumeMap, options)) {
+                windowController.runWin(SHEET_AMOUNT_EXP);
+                windowController.simpleMessage(SIMPLE_ERROR, "Участок \""
+                        +worksVolumeMap.get(KeyWorks.NAME_DISTRICT) +"\" добавлен");
             }
         } catch (SimpleMessageException e) {
             windowController.simpleMessage(SIMPLE_ERROR, e.getMessage());
         }
-        windowController.update();
     }
 }

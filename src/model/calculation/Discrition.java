@@ -22,6 +22,7 @@ public class Discrition {
     public static final String PLATES = "Укладка плит";
     public static final String CABLE_IN_PIPE = "Кабель прокладываемый в трубе";
     public static final String CABLE_IN_SOIL = "Кабель прокладываемый в грунте";
+    public static final String ALARM_TAPE = "Сигнальная лента";
 
     public static final String[] CAP = {"№ П.П.\nНаименование участка", "Наименование работ", "Ед.изм", "Колич.", "Примечания"};
 }

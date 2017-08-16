@@ -1,12 +1,15 @@
 package controller;
 
 import model.constant.KeyWorks;
+import model.constant.TypeTrench;
 import model.district.District;
+import model.input.InputDateExpanded;
 import model.user.User;
 import model.user.UserContainer;
 import view.StructWindow;
 import view.buttons.ButtonsListener;
 import view.buttons.ButtonsListenerToExcel;
+import view.buttons.ComboBoxListenerDistrict;
 import view.buttons.sheet_amount.ButtonsListenerCalculateAll;
 import view.buttons.sheet_amount.ButtonsListenerExpanded;
 import view.buttons.sheet_amount.ButtonsListenerNewDistrict;
@@ -21,7 +24,6 @@ import view.windows.windows_colection.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,14 +68,14 @@ public class WindowController implements ActionListener{
         if (windowView instanceof WindowSheetAmount) {
             User user = owner.getCurrentUser();
             List<District> districtList = UserContainer.getInstance().getDistrictByUserName(user.getLogIn());
-            prepare = new WindowSheetAmount(this);
+            prepare = windowView;
             ((WindowSheetAmount)prepare).startingCondition(user.getLogIn(), districtList);
             return prepare;
         }
         if (windowView instanceof WindowSheetAmountExpanded) {
             User user = owner.getCurrentUser();
             List<District> districtList = UserContainer.getInstance().getDistrictByUserName(user.getLogIn());
-            prepare = new WindowSheetAmountExpanded(this);
+            prepare = windowView;
             ((WindowSheetAmountExpanded)prepare).startingCondition(user.getLogIn(), districtList);
             return prepare;
         }
@@ -152,17 +154,24 @@ public class WindowController implements ActionListener{
                 worksVolumeMap.put(PIPE_TYPE, windowSheetAmountExpanded.getPipeType());
                 worksVolumeMap.put(QUANTITY_SUPPORT, windowSheetAmountExpanded.getQuantitySupport());
                 worksVolumeMap.put(HEIGHT_SUPPORT, windowSheetAmountExpanded.getHeightSupport());
-                
-                List<Boolean> checkBox = new ArrayList<>();
-                checkBox.add(windowSheetAmountExpanded.isSynthetic());
-                checkBox.add(windowSheetAmountExpanded.isPlates());
-                checkBox.add(windowSheetAmountExpanded.isAlarmTape());
-                checkBox.add(windowSheetAmountExpanded.isBoard());
-                checkBox.add(windowSheetAmountExpanded.isCrushedStone());
-                owner.sheetAmount(worksVolumeMap, checkBox);
+
+                Map<KeyWorks, Boolean> additionalOptions = new HashMap<>();
+                System.out.println(windowSheetAmountExpanded.isSynthetic());
+                additionalOptions.put(SYNTHETIC_BOOL, windowSheetAmountExpanded.isSynthetic());
+                additionalOptions.put(PLATES_BOOL, windowSheetAmountExpanded.isPlates());
+                additionalOptions.put(ALARM_TAPE_BOOL, windowSheetAmountExpanded.isAlarmTape());
+                additionalOptions.put(BOARD_BOOL, windowSheetAmountExpanded.isBoard());
+                additionalOptions.put(CRUSHED_STONE_BOOL, windowSheetAmountExpanded.isCrushedStone());
+                System.out.println("Plate bool " +windowSheetAmountExpanded.isPlates());
+                owner.sheetAmount(worksVolumeMap, additionalOptions);
             }
             if (buttonsListener instanceof ButtonsListenerCalculateAll) {
                 owner.calculateAll();
+            }
+            if (buttonsListener instanceof ComboBoxListenerDistrict) {
+                System.out.println("Combo box work");
+                if (!((WindowSheetAmountExpanded)structWindow.getActivity()).getChoiseDistrict().isEmpty())
+                    update();
             }
         }
         if (!(windowView instanceof WindowSimpleError)) {
@@ -208,11 +217,52 @@ public class WindowController implements ActionListener{
     }*/
 
     public void update() {
-        addWindow(structWindow.getActivity());
+        WindowView windowView = structWindow.getActivity();
+        if (windowView instanceof WindowSheetAmountExpanded) {
+            WindowSheetAmountExpanded window = (WindowSheetAmountExpanded) windowView;
+            String nameDistrict = window.getChoiseDistrict();
+            if (UserContainer.getInstance().getDistrictByName(nameDistrict) != null) {
+                District dis = UserContainer.getInstance().getDistrictByName(nameDistrict);
+                if (dis.getInputDate() instanceof InputDateExpanded) {
+                    InputDateExpanded inputDate = (InputDateExpanded) dis.getInputDate();
+                    window.setDistrictName(dis.getName());
+                    window.setLineLong(inputDate.getLineLong());
+                    window.setBranches(inputDate.getQuantityBranches().getValue());
+                    window.setLongCrossing(inputDate.getLongCrossing().getValue());
+                    window.setQuantitySupport(inputDate.getQuantitySupport().getValue());
+                    window.setHeightSupport(inputDate.getHeightSupport().getValue());
+                    window.setTrenchType(TypeTrench.trenchBySize(inputDate.getSizeTrench()));
+
+/*                    private JFormattedTextField formattedTextWidthTrench;
+                    private JFormattedTextField formattedTextHeightTrench;
+                    private JFormattedTextField formattedTextHeightSupport;
+                    private JComboBox<String> comboBoxTypeTrench;
+                    private JComboBox<String> comboBoxPipeStock;
+                    private JComboBox<String> comboBoxTypePipe;
+                    private JComboBox<String> comboBoxAllDistrict;
+                    private JCheckBox lightingCheckBox;
+                    private JCheckBox syntheticMaterialCheckBox;
+                    private JCheckBox layingOfPlatesCheckBox;
+                    private JCheckBox alarmTapeCheckBox;
+                    private JCheckBox fillingCrushedStoneCheckBox;
+                    private JCheckBox boardCheckBox;
+                    private JButton buttonBack;
+                    private JButton buttonAddDistrict;
+                    private JButton buttonCallculate;
+                    private JLabel labelNameUser;*/
+                }
+            }
+        }
+
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+    }
+
+    public void updateDis() {
+
     }
 }
 

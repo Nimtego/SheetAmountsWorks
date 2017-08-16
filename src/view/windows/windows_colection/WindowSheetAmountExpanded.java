@@ -2,13 +2,13 @@ package view.windows.windows_colection;
 
 import controller.WindowController;
 import model.district.District;
+import view.buttons.ComboBoxListenerDistrict;
 import view.buttons.sheet_amount.ButtonsListenerCalculateAll;
 import view.buttons.sheet_amount.ButtonsListenerNewDistrict;
 import view.buttons.user_reg.ButtonsListenerExit;
 import view.windows.WindowView;
 
 import javax.swing.*;
-
 import java.util.List;
 
 import static model.constant.Pipe.PIPE_STOCK;
@@ -46,13 +46,13 @@ public class WindowSheetAmountExpanded extends WindowView {
     private JLabel labelNameUser;
 
 
-
     public WindowSheetAmountExpanded(WindowController owner) {
         super(owner);
         this.getContentPane().add(jPanel);
         buttonBack.addActionListener(new ButtonsListenerExit(this));
         buttonAddDistrict.addActionListener(new ButtonsListenerNewDistrict(this));
         buttonCallculate.addActionListener(new ButtonsListenerCalculateAll(this));
+        comboBoxAllDistrict.addActionListener(new ComboBoxListenerDistrict(this));
         setBox(comboBoxTypeTrench, TYPE_TRENCH);
         setBox(comboBoxPipeStock, PIPE_STOCK);
         setBox(comboBoxTypePipe, TYPE_PIPE);
@@ -61,12 +61,13 @@ public class WindowSheetAmountExpanded extends WindowView {
 
 
     public void startingCondition(String userName, List<District> districtList) {
-        String nameDistrict = String.valueOf(comboBoxAllDistrict.getSelectedItem());
+ //       String nameDistrict = String.valueOf(comboBoxAllDistrict.getSelectedItem());
         comboBoxAllDistrict.removeAllItems();
         for (District district : districtList) {
             comboBoxAllDistrict.addItem(district.getName());
+            System.out.println(district.getName());
         }
-        District district = null;
+/*        District district = null;
         this.labelNameUser.setText(" < " +userName +" > ");
         for (District dis : districtList) {
             if (dis.getName().equals(nameDistrict)) {
@@ -76,7 +77,7 @@ public class WindowSheetAmountExpanded extends WindowView {
         }
         if (district != null) { // TODO: 15.08.2017
             formattedTextLineLong.setText(String.valueOf(district.getInputDate().getLineLong()));
-        }
+        }*/
     }
 
 
@@ -120,28 +121,61 @@ public class WindowSheetAmountExpanded extends WindowView {
     }
 
     public boolean isLighting() {
-        return lightingCheckBox.isBorderPainted();
+        return lightingCheckBox.isSelected();
     }
 
     public boolean isSynthetic() {
-        return syntheticMaterialCheckBox.isBorderPainted();
+        return syntheticMaterialCheckBox.isSelected();
     }
 
     public boolean isPlates() {
-        return layingOfPlatesCheckBox.isBorderPainted();
+        return layingOfPlatesCheckBox.isSelected();
     }
     public boolean isAlarmTape() {
-        return alarmTapeCheckBox.isBorderPainted();
+        return alarmTapeCheckBox.isSelected();
     }
     public boolean isCrushedStone() {
-        return fillingCrushedStoneCheckBox.isBorderPainted();
+        return fillingCrushedStoneCheckBox.isSelected();
     }
     public boolean isBoard() {
-        return boardCheckBox.isBorderPainted();
+        return boardCheckBox.isSelected();
     }
 
     public void setBox(JComboBox<String> comboBox, final String[] trenchType) {
         for (String string : trenchType)
             comboBox.addItem(string);
+    }
+
+    public String getChoiseDistrict() {
+        System.out.println(String.valueOf(comboBoxAllDistrict.getSelectedItem()));
+        return String.valueOf(comboBoxAllDistrict.getSelectedItem());
+    }
+
+    public void setLineLong(float lineLong) {
+        formattedTextLineLong.setText(String.valueOf(lineLong));
+    }
+
+    public void setBranches(Integer branches) {
+        formattedTextBranches.setText(String.valueOf(branches));
+    }
+
+    public void setDistrictName(String districtName) {
+        formattedNameDistrict.setText(districtName);
+    }
+
+    public void setLongCrossing(Number longCrossing) {
+        formattedTextLongCrossing.setText(String.valueOf(longCrossing));
+    }
+
+    public void setQuantitySupport(Integer quantitySupport) {
+        formattedTextSupport.setText(String.valueOf(quantitySupport));
+    }
+
+    public void setHeightSupport(Integer heightSupport) {
+        formattedTextHeightSupport.setText(String.valueOf(heightSupport));
+    }
+
+    public void setTrenchType(String trenchType) {
+        comboBoxTypeTrench.setSelectedItem(trenchType);
     }
 }

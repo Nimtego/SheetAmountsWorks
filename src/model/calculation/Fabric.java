@@ -16,9 +16,10 @@ public class Fabric {
     private Volume<Float> generalLongCableMeters; //Общая длинна кабеля
     private Volume<Float> cableStockMeters; //Запас кабеля под укладку
     private Volume<Integer> platesPieces; //Укладка плит ПЗК 480х480 мм
+    private Volume<Float> alarmTape;
 
     private Fabric(){}
-    public static FabricBuilder FabricBuilder() {
+    public static FabricBuilder fabricBuilder() {
         return new Fabric().new FabricBuilder();
     }
 
@@ -45,6 +46,12 @@ public class Fabric {
     public Volume<Integer> getPlatesPieces() {
         return platesPieces;
     }
+    public Volume<Float> getAlarmTape() {
+        return alarmTape;
+    }
+    public void setAlarmTape(Volume<Float> alarmTape) {
+        this.alarmTape = alarmTape;
+    }
     public String[][] formating() {
         List<Volume> volumeList = new ArrayList<>();
         volumeList.add(syntheticMaterialInSquare);
@@ -53,9 +60,11 @@ public class Fabric {
         volumeList.add(generalLongCableMeters);
         volumeList.add(cableStockMeters);
         volumeList.add(platesPieces);
+        volumeList.add(alarmTape);
         String[][] form = new String[volumeList.size()][3];
         int i = 0;
         for (Volume volume : volumeList) {
+            System.out.println(volume.getDescription());
                 form[i][0] = volume.getDescription();
                 form[i][1] = String.valueOf(volume.getValue());
                 form[i][2] = volume.getUnit();
@@ -109,6 +118,12 @@ public class Fabric {
                     new Volume<>(PLATES, PIECES, platesPieces);
             return this;
         }
+
+        public FabricBuilder alarmTape(final float alarmTape) {
+            Fabric.this.alarmTape =
+                    new Volume<>(ALARM_TAPE, METERS, alarmTape);
+            return this;
+        }
         public Fabric build() {
             Fabric fabric = new Fabric();
             fabric.syntheticMaterialInSquare = Fabric.this.syntheticMaterialInSquare;
@@ -117,7 +132,9 @@ public class Fabric {
             fabric.generalLongCableMeters = Fabric.this.generalLongCableMeters;
             fabric.cableStockMeters = Fabric.this.cableStockMeters;
             fabric.platesPieces = Fabric.this.platesPieces;
+            fabric.alarmTape = Fabric.this.alarmTape;
             return fabric;
         }
+
     }
 }
